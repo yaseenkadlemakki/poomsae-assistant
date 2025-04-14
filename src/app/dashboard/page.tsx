@@ -375,7 +375,10 @@ export default function DashboardPage() {
                 <p className="text-right text-sm mt-1 text-gray-600">{uploadProgress}%</p>
               </div>
             ) : (
-              <form onSubmit={handleUploadSubmit}>
+              <form onSubmit={(e) => {
+                  e.preventDefault();
+                  handleUploadSubmit(e);
+                }}>
                 {uploadError && (
                   <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded">
                     <div className="flex">
@@ -494,6 +497,10 @@ export default function DashboardPage() {
                     type="submit"
                     className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
                     disabled={!selectedPoomsae || (!capturedVideo && uploadProgress === 0)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleUploadSubmit(e);
+                    }}
                   >
                     Upload
                   </button>
