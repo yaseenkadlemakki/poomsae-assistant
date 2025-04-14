@@ -1,73 +1,36 @@
-# Virtual Poomsae Coach
-
-A web application for Taekwondo students to upload their Poomsae practice videos for automated analysis and feedback.
-
-## Features
-
-- **User Authentication**: Register and login to manage your Poomsae videos
-- **Video Upload**: Upload your Poomsae practice videos for analysis
-- **Poomsae Selection**: Choose from 7 different Poomsae types:
-  - Taegeuk 1 Jang
-  - Taegeuk 2 Jang
-  - Taegeuk 3 Jang
-  - Taegeuk 4 Jang
-  - Taegeuk 5 Jang
-  - Taegeuk 6 Jang
-  - Taegeuk 7 Jang
-- **Video Comparison**: Compare your videos against reference videos from YouTube
-- **Performance Analysis**: Get detailed feedback on your performance
-- **Scoring System**: Receive scores from 0-100 based on various criteria:
-  - Stance
-  - Balance
-  - Power
-  - Rhythm
-  - Accuracy
-  - Focus
-- **Improvement Suggestions**: Get personalized recommendations to improve your form
-
-## Technology Stack
-
-- **Frontend**: Next.js with React
-- **Backend**: Next.js API routes with Cloudflare Workers
-- **Database**: Cloudflare D1 (SQLite)
-- **Video Processing**: Client-side video handling
-- **Responsive Design**: Works on desktop and mobile devices (including iPhone)
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
-### Prerequisites
+First, run the development server:
 
-- Node.js 18+
-- npm or yarn
-
-### Installation
-
-1. Clone the repository
-```bash
-git clone https://github.com/yaseenkadlemakki/poomsae-coach.git
-cd poomsae-coach
-```
-
-2. Install dependencies
-```bash
-npm install
-```
-
-3. Run the development server
 ```bash
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Deployment
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-The application is deployed at [https://odfreuwr.manus.space](https://odfreuwr.manus.space)
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## License
+## Learn More
 
-MIT
+To learn more about Next.js, take a look at the following resources:
 
-## Acknowledgments
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-- Reference videos from [Taekwondo Poomsae YouTube Playlist](https://www.youtube.com/playlist?list=PLSFr5pEwo7gSwvfg4bjxoF3liyfJkCLAj)
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

@@ -1,0 +1,12 @@
+Setting up test environment...
+Running end-to-end integration tests...
+This will test the complete user workflow:
+1. Register a new user
+2. Login with the new user account
+3. Capture a video for 15 secs
+4. Save the video clip
+5. Compare it with reference Poomsae videos
+6. Verify recommendations and feedback
+
+Test execution completed.
+Test results and videos are available in the test-results directory.

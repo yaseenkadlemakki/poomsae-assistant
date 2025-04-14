@@ -1,0 +1,196 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+
+export default function RegisterPage() {
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    // Basic validation
+    if (!formData.username || !formData.email || !formData.password) {
+      setError('All fields are required');
+      setLoading(false);
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // Client-side mock registration instead of API call
+      // Check if user already exists in localStorage
+      const existingUsers = JSON.parse(localStorage.getItem('poomsaeUsers') || '[]');
+      const userExists = existingUsers.some(
+        user => user.username === formData.username || user.email === formData.email
+      );
+
+      if (userExists) {
+        setError('Username or email already exists');
+        setLoading(false);
+        return;
+      }
+
+      // Add new user to localStorage
+      const newUser = {
+        id: Date.now(),
+        username: formData.username,
+        email: formData.email,
+        password: formData.password, // In a real app, this would be hashed
+        createdAt: new Date().toISOString()
+      };
+
+      existingUsers.push(newUser);
+      localStorage.setItem('poomsaeUsers', JSON.stringify(existingUsers));
+
+      // Set current user in localStorage
+      localStorage.setItem('currentUser', JSON.stringify({
+        id: newUser.id,
+        username: newUser.username,
+        email: newUser.email
+      }));
+
+      // Create auth token (simple timestamp-based token for demo)
+      localStorage.setItem('authToken', `demo-token-${Date.now()}`);
+
+      // Redirect to dashboard
+      router.push('/dashboard');
+    } catch (err) {
+      console.error('Registration error:', err);
+      setError('Registration failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-6 px-4 sm:py-12 sm:px-6 lg:px-8"
+         style={{
+           backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url("/images/taekwondo_kick.jpg")',
+           backgroundSize: 'cover',
+           backgroundPosition: 'center'
+         }}>
+      <div className="max-w-md w-full space-y-6 sm:space-y-8 bg-white p-8 rounded-lg shadow-lg">
+        <div className="text-center">
+          <div className="flex justify-center mb-4">
+            <img src="/images/taekwondo_logo.png" alt="Taekwondo Logo" className="h-20 w-auto" />
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Virtual Poomsae Coach</h1>
+          <h2 className="mt-4 sm:mt-6 text-xl sm:text-2xl font-extrabold text-gray-800">Register</h2>
+        </div>
+        
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <span className="block sm:inline">{error}</span>
+          </div>
+        )}
+        
+        <form className="mt-6 sm:mt-8 space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
+          <div className="rounded-md shadow-sm space-y-4">
+            <div>
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">Username</label>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                autoComplete="username"
+                required
+                className="appearance-none block w-full px-3 py-3 sm:py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-base"
+                value={formData.username}
+                onChange={handleChange}
+              />
+            </div>
+            
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                className="appearance-none block w-full px-3 py-3 sm:py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-base"
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </div>
+            
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="new-password"
+                required
+                className="appearance-none block w-full px-3 py-3 sm:py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-base"
+                value={formData.password}
+                onChange={handleChange}
+              />
+            </div>
+            
+            <div>
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                autoComplete="new-password"
+                required
+                className="appearance-none block w-full px-3 py-3 sm:py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-base"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+
+          <div className="pt-2">
+            <button
+              type="submit"
+              disabled={loading}
+              className="group relative w-full flex justify-center py-3 sm:py-2 px-4 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 touch-manipulation"
+            >
+              {loading ? 'Registering...' : 'Register'}
+            </button>
+          </div>
+        </form>
+        
+        <div className="text-center mt-4">
+          <p className="text-base">Already have an account? <a href="/login" className="text-indigo-600 hover:text-indigo-500 font-medium">Login</a></p>
+        </div>
+        
+        <div className="mt-6 flex justify-center">
+          <div className="flex space-x-2">
+            <div className="text-center">
+              <p className="text-xs text-gray-500 mb-1">Begin your Taekwondo journey</p>
+              <img src="/images/taekwondo_pose.jpg" alt="Taekwondo Pose" className="h-20 w-auto rounded-md shadow-sm" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
